@@ -16,6 +16,11 @@ theme = 'PaperMod' # Specifies the Hugo theme to be used for styling and layout.
   mainSections = ["posts"] # Defines which sections are considered "main" for listing purposes, typically the blog section.
   enableDropdownMenu = true # Enables a dropdown menu for navigation if configured.
 
+  # Social media profiles and links
+  [params.social]
+    twitter = "" # Twitter/X username (without @)
+    facebook_admin = "" # Facebook admin ID for domain verification
+
   [params.profileMode] # Configures the profile section often shown on the homepage or sidebar.
     enabled = true # Enables the display of the profile mode section.
     title = "Investing Filter" # Sets the title displayed within the profile section.
