@@ -1,7 +1,7 @@
 ---
 title: "Standard sizes of rooms in flats"
 date: 2023-03-29
-draft: true
+draft: false
 ---
 
 ## Introduction
