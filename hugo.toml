@@ -1,0 +1,80 @@
+baseURL = 'https://victor-explore.github.io/'
+languageCode = 'en-us'
+title = 'Victor'
+theme = 'PaperMod'
+
+[params]
+  math = true
+  ShowPageNavigation = true
+  ShowBreadCrumbs = false
+  ShowCodeCopyButtons = true
+  ShowToc = true
+  ShowPostNavLinks = true
+  enableEmoji = true
+  showtoc = true
+  hideMeta = false
+  mainSections = ["posts"]
+  enableDropdownMenu = true
+
+  [params.profileMode]
+    enabled = true
+    title = "Victor"
+    subtitle = "I talk about AI"
+    subtitle2 = "And share insights about technology, society, and personal growth"
+    imageUrl = "/images/profile.png"
+    imageTitle = "Profile Picture"
+    imageWidth = 120 # custom size
+    imageHeight = 120 # custom size
+
+  [[params.socialIcons]]
+    name = "x"
+    url = "https://x.com/victor_explore"
+  [[params.socialIcons]] # optional
+    name = "github"
+    url = "https://github.com/victor-explore"
+
+  [params.social]
+    facebook_admin = "" # If you have a Facebook admin ID
+    twitter = "victor_explore" # Your Twitter handle without @
+
+  [params.assets]
+    favicon = "/images/profile.png"
+    favicon16x16 = "/images/profile.png"
+    favicon32x32 = "/images/profile.png"
+    apple_touch_icon = "/images/profile.png"
+
+[menu]
+  [[menu.main]]
+    identifier = "ai-roadmap"
+    name = "🗺️ AI Roadmap"
+    url = "/posts/AI Roadmap/"
+    weight = 20
+  [[menu.main]]
+    identifier = "free-resources"
+    name = "📚 Free Resources"
+    url = "/posts/Free Resources/"
+    weight = 23
+  [[menu.main]]
+    identifier = "discord-community"
+    name = "💬 Discord Community"
+    url = "https://discord.com/invite/QHAbprqQme"
+    weight = 25
+    params = { newTab = true }
+  [[menu.main]]
+    identifier = "posts"
+    name = "📝 Posts"
+    url = "/posts/"
+    weight = 30
+  [[menu.main]]
+    identifier = "support-me"
+    name = "☕ Support Me"
+    url = "https://ko-fi.com/victor_explore"
+    weight = 35
+    params = { newTab = true }
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+  [markup.highlight]
+    noClasses = false
