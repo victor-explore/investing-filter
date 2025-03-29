@@ -1,5 +1,5 @@
 ---
-title:
+title: Rental Yield Calculator
 date:
 draft: false
 description:
