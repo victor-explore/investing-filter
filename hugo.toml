@@ -1,80 +1,58 @@
-baseURL = 'https://www.investingfilter.com/'
-languageCode = 'en-us'
-title = 'Victor'
-theme = 'PaperMod'
+baseURL = 'https://www.investingfilter.com/' # Sets the base URL for the website. This is the root address where the site will be hosted.
+languageCode = 'en-us' # Specifies the default language for the site content (English - United States).
+title = 'Investing Filter' # Sets the main title of the website, often displayed in the browser tab and header.
+theme = 'PaperMod' # Specifies the Hugo theme to be used for styling and layout. 'PaperMod' is a popular theme.
 
-[params]
-  math = true
-  ShowPageNavigation = true
-  ShowBreadCrumbs = false
-  ShowCodeCopyButtons = true
-  ShowToc = true
-  ShowPostNavLinks = true
-  enableEmoji = true
-  showtoc = true
-  hideMeta = false
-  mainSections = ["posts"]
-  enableDropdownMenu = true
+[params] # This section defines theme-specific parameters or site-wide custom variables.
+  math = true # Enables MathJax or KaTeX rendering for mathematical formulas within content.
+  ShowPageNavigation = true # Enables next/previous page navigation links at the bottom of single pages.
+  ShowBreadCrumbs = false # Disables the display of breadcrumb navigation (e.g., Home > Posts > My Post).
+  ShowCodeCopyButtons = true # Adds buttons to code blocks for easy copying of the code.
+  ShowToc = true # Enables the automatic generation and display of a Table of Contents on pages.
+  ShowPostNavLinks = true # Shows links to the next and previous posts within the same section.
+  enableEmoji = true # Allows the use of standard emojis in content files.
+  showtoc = true # Redundant setting, already covered by ShowToc. Controls Table of Contents visibility.
+  hideMeta = false # Shows metadata (like date, reading time) for posts. Setting to true would hide it.
+  mainSections = ["posts"] # Defines which sections are considered "main" for listing purposes, typically the blog section.
+  enableDropdownMenu = true # Enables a dropdown menu for navigation if configured.
 
-  [params.profileMode]
-    enabled = true
-    title = "Victor"
-    subtitle = "I talk about AI"
-    subtitle2 = "And share insights about technology, society, and personal growth"
-    imageUrl = "/images/profile.png"
-    imageTitle = "Profile Picture"
-    imageWidth = 120 # custom size
-    imageHeight = 120 # custom size
+  [params.profileMode] # Configures the profile section often shown on the homepage or sidebar.
+    enabled = true # Enables the display of the profile mode section.
+    title = "Investing Filter" # Sets the title displayed within the profile section.
+    subtitle = "Tools and insights for filtering investment opportunities." # Sets the subtitle displayed below the title in the profile section.
+    imageUrl = "/images/profile.png" # Specifies the path to the profile image. Assumes the image is in the 'static/images' folder.
+    imageTitle = "Investing Filter Logo" # Sets the alt text or title attribute for the profile image.
+    imageWidth = 120 # Sets the display width of the profile image in pixels.
+    imageHeight = 120 # Sets the display height of the profile image in pixels.
 
-  [[params.socialIcons]]
-    name = "x"
-    url = "https://x.com/victor_explore"
-  [[params.socialIcons]] # optional
-    name = "github"
-    url = "https://github.com/victor-explore"
+  [params.assets] # Configures site assets like favicons.
+    favicon = "/images/profile.png" # Sets the main favicon for the site.
+    favicon16x16 = "/images/profile.png" # Sets the 16x16 pixels version of the favicon.
+    favicon32x32 = "/images/profile.png" # Sets the 32x32 pixels version of the favicon.
+    apple_touch_icon = "/images/profile.png" # Sets the icon used when the site is added to the home screen on Apple devices.
 
-  [params.social]
-    facebook_admin = "" # If you have a Facebook admin ID
-    twitter = "victor_explore" # Your Twitter handle without @
+[menu] # Defines the navigation menus for the site.
+  [[menu.main]] # Defines an item in the main navigation menu.
+    identifier = "posts" # A unique identifier for this menu item.
+    name = "📝 Posts" # The text displayed for this menu item. Includes an emoji.
+    url = "/posts/" # The URL this menu item links to. It points to the posts section.
+    weight = 10 # Determines the order of menu items. Lower numbers appear first.
 
-  [params.assets]
-    favicon = "/images/profile.png"
-    favicon16x16 = "/images/profile.png"
-    favicon32x32 = "/images/profile.png"
-    apple_touch_icon = "/images/profile.png"
+  [[menu.main]] # Defines another item in the main navigation menu. This is the new entry for the About page.
+    identifier = "about" # A unique identifier for the "About" menu item.
+    name = "ℹ️ About" # The text displayed for the "About" menu item. Includes an informational emoji.
+    url = "/about/" # The URL this menu item links to. It points to the 'about.md' page (Hugo automatically creates the /about/ path).
+    weight = 20 # Sets the order for this menu item. A higher weight means it appears after items with lower weights (like "Posts").
 
-[menu]
-  [[menu.main]]
-    identifier = "ai-roadmap"
-    name = "🗺️ AI Roadmap"
-    url = "/posts/AI Roadmap/"
-    weight = 20
-  [[menu.main]]
-    identifier = "free-resources"
-    name = "📚 Free Resources"
-    url = "/posts/Free Resources/"
-    weight = 23
-  [[menu.main]]
-    identifier = "discord-community"
-    name = "💬 Discord Community"
-    url = "https://discord.com/invite/QHAbprqQme"
-    weight = 25
-    params = { newTab = true }
-  [[menu.main]]
-    identifier = "posts"
-    name = "📝 Posts"
-    url = "/posts/"
-    weight = 30
-  [[menu.main]]
-    identifier = "support-me"
-    name = "☕ Support Me"
-    url = "https://ko-fi.com/victor_explore"
-    weight = 35
-    params = { newTab = true }
+  [[menu.main]] # Defines a new menu item for the Rental Yield Calculator.
+    identifier = "rental-yield-calculator" # A unique identifier for this menu item.
+    name = "🏠 Rental Yield Calculator" # The text displayed for this menu item with a house emoji.
+    url = "/rental-yield-calculator/" # The URL this menu item links to.
+    weight = 15 # Sets the order between Posts (10) and About (20).
 
-[markup]
-  [markup.goldmark]
-    [markup.goldmark.renderer]
-      unsafe = true
-  [markup.highlight]
-    noClasses = false
+[markup] # Configures how Markdown content is processed.
+  [markup.goldmark] # Specifies settings for the Goldmark Markdown renderer (Hugo's default).
+    [markup.goldmark.renderer] # Renderer specific settings.
+      unsafe = true # Allows rendering of raw HTML embedded within Markdown files. Use with caution as it can introduce security risks if content is user-generated.
+  [markup.highlight] # Configures syntax highlighting for code blocks.
+    noClasses = false # Uses CSS classes for syntax highlighting (recommended). Setting to true would use inline styles.
