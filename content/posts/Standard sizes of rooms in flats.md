@@ -4,6 +4,456 @@ date: 2023-03-29
 draft: false
 ---
 
+## Room Size Calculator
+
+Use this interactive tool to determine if your room dimensions are small, medium, large, or luxury-sized, and see what furniture can comfortably fit in the space.
+
+<div id="room-calculator">
+  <h3>Room Size Calculator</h3>
+  
+  <div class="form-group">
+    <label for="room-type">Room Type:</label>
+    <select id="room-type">
+      <option value="living">Living Room</option>
+      <option value="bedroom">Bedroom</option>
+      <option value="kitchen">Kitchen</option>
+      <option value="dining">Dining Room</option>
+      <option value="bathroom">Bathroom</option>
+      <option value="balcony">Balcony</option>
+    </select>
+  </div>
+  
+  <div class="form-group">
+    <label for="length">Length (in feet):</label>
+    <input type="number" id="length" min="1" step="0.1">
+  </div>
+  
+  <div class="form-group">
+    <label for="width">Width (in feet):</label>
+    <input type="number" id="width" min="1" step="0.1">
+  </div>
+  
+  <button id="calculate-btn" class="room-calc-button">Calculate</button>
+  
+  <div id="results" style="display: none;">
+    <h4>Results:</h4>
+    <p id="area-result"></p>
+    <p id="size-category"></p>
+    <div id="furniture-fits"></div>
+  </div>
+</div>
+
+<style>
+  #room-calculator {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 600px;
+    margin: 20px auto;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  #room-calculator label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  #room-calculator input, #room-calculator select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .room-calc-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .room-calc-button:hover {
+    background-color: #45a049;
+  }
+  
+  #results {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #e8f5e9;
+    border-radius: 4px;
+  }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const calculateBtn = document.getElementById('calculate-btn'); // Get the calculate button
+  
+  calculateBtn.addEventListener('click', function() {
+    // Get input values
+    const roomType = document.getElementById('room-type').value; // Get the selected room type
+    const length = parseFloat(document.getElementById('length').value); // Get the length value
+    const width = parseFloat(document.getElementById('width').value); // Get the width value
+    
+    // Validate inputs
+    if (isNaN(length) || isNaN(width) || length <= 0 || width <= 0) {
+      alert('Please enter valid dimensions'); // Show error if dimensions are invalid
+      return;
+    }
+    
+    // Calculate area
+    const area = length * width; // Calculate the area of the room
+    
+    // Determine room size category and what can fit
+    const result = evaluateRoomSize(roomType, length, width, area); // Evaluate the room size based on type and dimensions
+    
+    // Display results
+    document.getElementById('area-result').textContent = `Room Area: ${area.toFixed(2)} sq ft`; // Display the calculated area
+    document.getElementById('size-category').textContent = `Size Category: ${result.category}`; // Display the size category
+    
+    // Display furniture that can fit
+    const furnitureDiv = document.getElementById('furniture-fits');
+    furnitureDiv.innerHTML = '<h5>This room can accommodate:</h5>'; // Set heading for furniture list
+    
+    const furnitureList = document.createElement('ul'); // Create a list for furniture items
+    result.furniture.forEach(item => {
+      const listItem = document.createElement('li'); // Create a list item for each furniture piece
+      listItem.textContent = item; // Set the text content of the list item
+      furnitureList.appendChild(listItem); // Add the list item to the furniture list
+    });
+    
+    furnitureDiv.appendChild(furnitureList); // Add the furniture list to the results div
+    
+    // Show results
+    document.getElementById('results').style.display = 'block'; // Make the results visible
+  });
+  
+  // Function to evaluate room size based on type and dimensions
+  function evaluateRoomSize(roomType, length, width, area) {
+    let category = '';
+    let furniture = [];
+    
+    // Evaluate based on room type
+    switch(roomType) {
+      case 'living':
+        if (area < 120) {
+          category = 'Small Living Room';
+          furniture = [
+            '2-seater sofa or 2 armchairs',
+            'Small coffee table',
+            'TV unit with up to 32" TV',
+            'Limited circulation space'
+          ];
+        } else if (area < 180) {
+          category = 'Small Living Room';
+          furniture = [
+            '3-seater sofa',
+            'Coffee table',
+            'TV unit with 40" TV',
+            'Limited circulation space',
+            'Best for 2-3 people gathering'
+          ];
+        } else if (area < 270) {
+          category = 'Medium Living Room';
+          furniture = [
+            '3-seater sofa',
+            '1-seater armchair',
+            'Coffee table',
+            'TV unit with 50" TV',
+            'Side table',
+            'Comfortable circulation space',
+            'Suitable for 4-5 people gathering'
+          ];
+        } else if (area < 432) {
+          category = 'Large Living Room';
+          furniture = [
+            'L-shaped sofa or 3-seater + 2-seater combination',
+            'Coffee table',
+            'TV unit with 55"-65" TV',
+            'Side tables',
+            'Bookshelf',
+            'Generous circulation space',
+            'Can accommodate 6-8 people comfortably'
+          ];
+        } else {
+          category = 'Luxury Living Room';
+          furniture = [
+            'Complete sofa set (3+2+1)',
+            'Coffee table',
+            'Large TV unit',
+            'Bookshelves',
+            'Display cabinets',
+            'Dining area',
+            'Abundant circulation space',
+            'Perfect for entertaining large groups of 10+ people'
+          ];
+        }
+        break;
+        
+      case 'bedroom':
+        if (area < 80) {
+          category = 'Small Bedroom';
+          furniture = [
+            'Single bed',
+            'Small wardrobe',
+            'Bedside table',
+            'Limited circulation space',
+            'Best for children or single adults'
+          ];
+        } else if (area < 120) {
+          category = 'Medium Bedroom';
+          furniture = [
+            'Double bed',
+            '2-door wardrobe',
+            'One or two bedside tables',
+            'Adequate circulation space',
+            'Comfortable for a single person or couple'
+          ];
+        } else if (area < 180) {
+          category = 'Large Bedroom';
+          furniture = [
+            'Queen or king-sized bed',
+            'Large wardrobe or walk-in closet',
+            'Two bedside tables',
+            'Dresser or vanity',
+            'Seating area with chair',
+            'Comfortable circulation space',
+            'Suitable for master bedroom'
+          ];
+        } else {
+          category = 'Luxury Bedroom';
+          furniture = [
+            'King-sized bed',
+            'Walk-in closet',
+            'Full bedroom set with bedside tables',
+            'Dresser and vanity',
+            'Seating area with chairs or chaise lounge',
+            'TV unit',
+            'Workspace or desk',
+            'Generous circulation space',
+            'Perfect for luxury master suites'
+          ];
+        }
+        break;
+        
+      case 'kitchen':
+        if (area < 50) {
+          category = 'Small Kitchen';
+          furniture = [
+            'Single counter with sink',
+            'Compact refrigerator',
+            '2-burner stove',
+            'Limited cabinet space',
+            'Minimal circulation space',
+            'Best for single-person households'
+          ];
+        } else if (area < 80) {
+          category = 'Medium Kitchen';
+          furniture = [
+            'L-shaped counter with sink',
+            'Standard refrigerator',
+            '4-burner stove',
+            'Adequate cabinets',
+            'Sufficient circulation space for one person',
+            'Suitable for small families or couples'
+          ];
+        } else if (area < 120) {
+          category = 'Large Kitchen';
+          furniture = [
+            'U-shaped or L-shaped counter with island',
+            'Full-sized refrigerator',
+            'Cooking range',
+            'Dishwasher',
+            'Ample cabinets',
+            'Comfortable circulation space for multiple people',
+            'Can accommodate a family with cooking enthusiasts'
+          ];
+        } else {
+          category = 'Luxury Kitchen';
+          furniture = [
+            'Multiple work zones',
+            'Large island',
+            'Full-sized appliances',
+            'Pantry space',
+            'Extensive cabinetry',
+            'Generous circulation space for multiple cooks',
+            'Perfect for entertaining and gourmet cooking'
+          ];
+        }
+        break;
+        
+      case 'dining':
+        if (area < 64) {
+          category = 'Small Dining Area';
+          furniture = [
+            'Small round or square table for 2-4 people',
+            'Minimal circulation space',
+            'Best for apartments or small households',
+            'Often part of an open-plan kitchen/living area'
+          ];
+        } else if (area < 100) {
+          category = 'Medium Dining Room';
+          furniture = [
+            'Rectangular table for 4-6 people',
+            'Sufficient circulation space',
+            'Suitable for small families or couples who occasionally entertain',
+            'May accommodate a small sideboard or buffet'
+          ];
+        } else if (area < 168) {
+          category = 'Large Dining Room';
+          furniture = [
+            'Large rectangular table for 6-8 people',
+            'Sideboard or buffet',
+            'Comfortable circulation space',
+            'Can accommodate family gatherings and dinner parties',
+            'Space for additional furniture like china cabinets'
+          ];
+        } else {
+          category = 'Formal Dining Room';
+          furniture = [
+            'Extended dining table for 8-12 people',
+            'Buffet',
+            'China cabinet',
+            'Serving table',
+            'Generous circulation space for serving and movement',
+            'Perfect for entertaining and formal dining occasions',
+            'May include space for a bar area or additional seating'
+          ];
+        }
+        break;
+        
+      case 'bathroom':
+        if (area < 18) {
+          category = 'Very Small Bathroom';
+          furniture = [
+            'Toilet',
+            'Small sink',
+            'Very limited circulation space',
+            'Functional but tight'
+          ];
+        } else if (area < 40) {
+          category = 'Small Powder Room';
+          furniture = [
+            'Toilet and small sink',
+            'Minimal circulation space',
+            'Best for guest bathrooms or half baths',
+            'No bathing facilities'
+          ];
+        } else if (area < 64) {
+          category = 'Small Full Bathroom';
+          furniture = [
+            'Toilet',
+            'Sink',
+            'Shower or tub',
+            'Limited circulation space',
+            'Common in apartments and smaller homes',
+            'Efficient layout with fixtures along walls'
+          ];
+        } else if (area < 100) {
+          category = 'Medium Bathroom';
+          furniture = [
+            'Toilet',
+            'Vanity sink',
+            'Tub/shower combination',
+            'Adequate circulation space',
+            'May include small storage cabinet',
+            'Comfortable for daily use'
+          ];
+        } else if (area < 144) {
+          category = 'Large Bathroom';
+          furniture = [
+            'Toilet',
+            'Double vanity',
+            'Separate tub and shower',
+            'Comfortable circulation space',
+            'Room for storage cabinets or linen closet',
+            'Suitable for master bathrooms'
+          ];
+        } else {
+          category = 'Luxury Bathroom';
+          furniture = [
+            'Toilet (possibly in separate water closet)',
+            'Double vanity',
+            'Soaking tub',
+            'Walk-in shower',
+            'Generous circulation space',
+            'Ample storage options',
+            'May include seating area or dressing space',
+            'Perfect for spa-like master bathrooms'
+          ];
+        }
+        break;
+        
+      case 'balcony':
+        if (area < 12) {
+          category = 'Juliet Balcony';
+          furniture = [
+            'Standing space only with protective railing',
+            'Primarily decorative with minimal usable space',
+            'Provides ventilation but limited utility'
+          ];
+        } else if (area < 24) {
+          category = 'Small Utility Balcony';
+          furniture = [
+            'Small plants',
+            'Limited standing space',
+            'Functional for essential outdoor needs'
+          ];
+        } else if (area < 40) {
+          category = 'Utility Balcony';
+          furniture = [
+            'Clothes drying area',
+            'Small plants',
+            'Functional space for essential outdoor needs',
+            'Common in mid-range apartments',
+            'Often attached to kitchen or utility areas'
+          ];
+        } else if (area < 60) {
+          category = 'Standard Balcony';
+          furniture = [
+            '2-chair seating arrangement',
+            'Several potted plants',
+            'Comfortable for 1-2 people to sit',
+            'Typical in most modern apartments',
+            'Versatile for multiple uses'
+          ];
+        } else if (area < 96) {
+          category = 'Large Balcony';
+          furniture = [
+            'Small table with 2-4 chairs',
+            'Multiple plants',
+            'Comfortable for family seating',
+            'Found in premium apartments',
+            'Can be used as an outdoor dining area'
+          ];
+        } else {
+          category = 'Luxury Terrace Balcony';
+          furniture = [
+            'Lounge furniture',
+            'Dining set',
+            'Extensive plants/garden',
+            'Spacious enough for entertaining guests',
+            'Available in high-end apartments and penthouses',
+            'Can be designed as an outdoor living room'
+          ];
+        }
+        break;
+    }
+    
+    return {
+      category: category,
+      furniture: furniture
+    };
+  }
+});
+</script>
+
 ## Introduction
 
 In India, room measurements are typically expressed in feet (ft). One foot is approximately equal to the length of an adult human foot (about 30.48 centimeters or 12 inches). This unit of measurement has historical roots and remains the standard for real estate and construction in India despite the country's official adoption of the metric system.
